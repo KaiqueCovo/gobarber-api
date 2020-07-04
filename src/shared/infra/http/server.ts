@@ -4,11 +4,11 @@ import 'express-async-errors'
 
 import routes from './routes'
 
-import AppError from './errors/AppError'
+import AppError from '@shared/errors/AppError'
 
-import { directory } from './configs/upload'
+import { directory } from '@configs/upload'
 
-import './database'
+import '@shared/infra/typeorm'
 
 const app = express()
 
