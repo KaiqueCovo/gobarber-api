@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db:
+    image: mariadb
+    container_name: gostack-mysql
+    volumes:
+        - "./volumes/data/.mysql:/var/lib/mysql"
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: root
+        MYSQL_PASSWORD: root
+    ports:
+        - "33080:3306"

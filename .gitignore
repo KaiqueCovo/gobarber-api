@@ -1,0 +1,12 @@
+#dependencies
+node_modules
+
+#tmp folder
+tmp/*
+!tmp/.gitkeep
+
+#docker
+volumes
+
+#debugger
+.vscode
