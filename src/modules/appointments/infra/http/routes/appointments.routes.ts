@@ -1,11 +1,9 @@
 import { Router } from 'express'
 import { parseISO } from 'date-fns'
+import { container } from 'tsyringe'
 
 /* Middlewares */
 import AuthMiddleware from '@modules/users/infra/http/middlewares/AuthMiddleware'
-
-/* Repositories */
-import AppointmentRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository'
 
 /* Services */
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
@@ -32,8 +30,7 @@ appointmentRouter.post('/', async (req, res) => {
   /**
    * Service instance
    */
-  const appointmentsRepository = new AppointmentRepository()
-  const createAppointment = new CreateAppointmentService(appointmentsRepository)
+  const createAppointment = container.resolve(CreateAppointmentService)
 
   /**
    * Execute method for create appointment

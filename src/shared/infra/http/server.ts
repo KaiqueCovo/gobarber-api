@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction, response } from 'express'
 import cors from 'cors'
 import 'express-async-errors'
+import 'reflect-metadata'
 
 import routes from './routes'
 
@@ -9,6 +10,7 @@ import AppError from '@shared/errors/AppError'
 import { directory } from '@configs/upload'
 
 import '@shared/infra/typeorm'
+import '@shared/container'
 
 const app = express()
 

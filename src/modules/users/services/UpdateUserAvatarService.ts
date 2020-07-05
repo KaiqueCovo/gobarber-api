@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import fs from 'fs'
+import { injectable, inject } from 'tsyringe'
 
 /* Entities */
 import User from '../infra/typeorm/entities/User'
@@ -18,8 +19,12 @@ interface IRequest {
   avatarName: string
 }
 
+@injectable()
 class UpdateUserAvatarService {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   public async execute({ user_id, avatarName }: IRequest): Promise<User> {
     /**

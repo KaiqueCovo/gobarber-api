@@ -1,7 +1,5 @@
 import { Router } from 'express'
-
-/* Repositories */
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
+import { container } from 'tsyringe'
 
 /* Services */
 import CreateSessionService from '@modules/users/services/CreateSessionService'
@@ -14,8 +12,7 @@ sessionsRouter.post('/', async (req, res) => {
   /**
    * Service session instance
    */
-  const usersRepository = new UsersRepository()
-  const createSession = new CreateSessionService(usersRepository)
+  const createSession = container.resolve(CreateSessionService)
 
   /**
    * Execute method for create session

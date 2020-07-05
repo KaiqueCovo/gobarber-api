@@ -1,11 +1,9 @@
 import { Router } from 'express'
+import { container } from 'tsyringe'
 import multer from 'multer'
 
 /* Middlewares */
 import AuthMiddleware from '../middlewares/AuthMiddleware'
-
-/* Repositories */
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
 
 /* Services */
 import CreateUserService from '@modules/users/services/CreateUserService'
@@ -23,8 +21,7 @@ usersRouter.post('/', async (req, res) => {
   /**
    * Service user instance
    */
-  const usersRepository = new UsersRepository()
-  const createUser = new CreateUserService(usersRepository)
+  const createUser = container.resolve(CreateUserService)
 
   /**
    * Execute method for create user
@@ -45,8 +42,7 @@ usersRouter.post(
     /**
      * Service update avatar instance
      */
-    const usersRepository = new UsersRepository()
-    const updateAvatar = new UpdateUserAvatarService(usersRepository)
+    const updateAvatar = container.resolve(UpdateUserAvatarService)
 
     /**
      * Execute method for update avatar
