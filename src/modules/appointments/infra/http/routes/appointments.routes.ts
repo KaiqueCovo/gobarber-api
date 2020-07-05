@@ -1,28 +1,25 @@
 import { Router } from 'express'
-import { getCustomRepository } from 'typeorm'
 import { parseISO } from 'date-fns'
 
 /* Middlewares */
 import AuthMiddleware from '@modules/users/infra/http/middlewares/AuthMiddleware'
 
+/* Repositories */
+import AppointmentRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository'
+
 /* Services */
-import AppointmentRepository from '@modules/appointments/repositories/AppointmentRepository'
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
 
 const appointmentRouter = Router()
 
 appointmentRouter.use(AuthMiddleware)
 
-appointmentRouter.get('/', async (req, res) => {
-  /**
-   * Get methods from repository Appointment
-   */
-  const appointmentRepository = getCustomRepository(AppointmentRepository)
-
+/* appointmentRouter.get('/', async (req, res) => {
   const appointments = await appointmentRepository.find()
 
   return res.json(appointments)
 })
+*/
 
 appointmentRouter.post('/', async (req, res) => {
   const { provider_id, date } = req.body
@@ -35,7 +32,8 @@ appointmentRouter.post('/', async (req, res) => {
   /**
    * Service instance
    */
-  const createAppointment = new CreateAppointmentService()
+  const appointmentsRepository = new AppointmentRepository()
+  const createAppointment = new CreateAppointmentService(appointmentsRepository)
 
   /**
    * Execute method for create appointment

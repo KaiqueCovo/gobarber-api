@@ -4,6 +4,9 @@ import multer from 'multer'
 /* Middlewares */
 import AuthMiddleware from '../middlewares/AuthMiddleware'
 
+/* Repositories */
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository'
+
 /* Services */
 import CreateUserService from '@modules/users/services/CreateUserService'
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
@@ -20,7 +23,8 @@ usersRouter.post('/', async (req, res) => {
   /**
    * Service user instance
    */
-  const createUser = new CreateUserService()
+  const usersRepository = new UsersRepository()
+  const createUser = new CreateUserService(usersRepository)
 
   /**
    * Execute method for create user
@@ -41,7 +45,8 @@ usersRouter.post(
     /**
      * Service update avatar instance
      */
-    const updateAvatar = new UpdateUserAvatarService()
+    const usersRepository = new UsersRepository()
+    const updateAvatar = new UpdateUserAvatarService(usersRepository)
 
     /**
      * Execute method for update avatar

@@ -1,9 +1,11 @@
-import { getRepository } from 'typeorm'
 import { resolve } from 'path'
 import fs from 'fs'
 
 /* Entities */
 import User from '../infra/typeorm/entities/User'
+
+/* Interface repository */
+import IUsersRepository from '../repositories/InterfaceUsersRepository'
 
 /* Shared */
 import AppError from '@shared/errors/AppError'
@@ -11,22 +13,19 @@ import AppError from '@shared/errors/AppError'
 /* Configs */
 import { directory } from '@configs/upload'
 
-interface RequestDTO {
+interface IRequest {
   user_id: string
   avatarName: string
 }
 
 class UpdateUserAvatarService {
-  public async execute({ user_id, avatarName }: RequestDTO): Promise<User> {
-    /**
-     * Get methods Repository
-     */
-    const usersRepository = getRepository(User)
+  constructor(private usersRepository: IUsersRepository) {}
 
+  public async execute({ user_id, avatarName }: IRequest): Promise<User> {
     /**
-     * Get user with id
+     * Get user with ID
      */
-    const user = await usersRepository.findOne(user_id)
+    const user = await this.usersRepository.findById(user_id)
 
     /**
      * Check if user exists
@@ -62,7 +61,7 @@ class UpdateUserAvatarService {
     /**
      * Update avatar
      */
-    await usersRepository.save(user)
+    await this.usersRepository.save(user)
 
     delete user.password
 

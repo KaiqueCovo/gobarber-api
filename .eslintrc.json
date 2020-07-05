@@ -5,7 +5,6 @@
     },
     "extends": [
         "standard",
-
         "plugin:@typescript-eslint/recommended",
         "prettier/@typescript-eslint",
         "plugin:prettier/recommended"
@@ -26,6 +25,13 @@
     "rules": {
       "prettier/prettier": "error",
       "class-methods-use-this":"off",
-      "@typescript-eslint/camelcase": "off"
+      "@typescript-eslint/camelcase": "off",
+      "no-useless-constructor": "off",
+      "@typescript-eslint/interface-name-prefix": [
+        "error",
+        {
+            "prefixWithI": "always"
+        }
+    ]
     }
 }

@@ -1,30 +1,23 @@
 import { startOfHour } from 'date-fns'
-import { getCustomRepository } from 'typeorm'
 
 /* Entities */
 import Appointment from '../infra/typeorm/entities/Appointment'
 
-/* Repositories */
-import AppointmentRepository from '../repositories/AppointmentRepository'
+/* Interface repository */
+import IAppointmentsRepository from '../repositories/InterfaceAppointmentsRepository'
 
 /* Shared */
 import AppError from '@shared/errors/AppError'
 
-interface RequestDTO {
+interface IRequest {
   provider_id: string
   date: Date
 }
 
 class CreateAppointmentService {
-  public async execute({
-    provider_id,
-    date,
-  }: RequestDTO): Promise<Appointment> {
-    /**
-     * Get methods from repository Appointment
-     */
-    const appointmentRepository = getCustomRepository(AppointmentRepository)
+  constructor(private appointmentsRepository: IAppointmentsRepository) {}
 
+  public async execute({ provider_id, date }: IRequest): Promise<Appointment> {
     /**
      * Get first hour from date
      */
@@ -34,7 +27,7 @@ class CreateAppointmentService {
      * Execute method findByDate for check if
      * existing appointment from same date
      */
-    const findAppointmentInSameDate = await appointmentRepository.findByDate(
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
     )
     if (findAppointmentInSameDate) {
@@ -44,15 +37,10 @@ class CreateAppointmentService {
     /**
      * Create a instance
      */
-    const appointment = appointmentRepository.create({
+    const appointment = await this.appointmentsRepository.create({
       provider_id,
       date: appointmentDate,
     })
-
-    /**
-     * Save instance in database
-     */
-    await appointmentRepository.save(appointment)
 
     return appointment
   }
