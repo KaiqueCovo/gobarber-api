@@ -8,5 +8,8 @@ tmp/*
 #docker
 volumes
 
+#jest
+coverage
+
 #debugger
 .vscode
