@@ -55,8 +55,6 @@ class CreateUserService {
       password: passwordHashed,
     })
 
-    delete user.password
-
     return user
   }
 }
