@@ -11,7 +11,6 @@ class AppointmentsRepository {
   private appointments: Appointment[] = []
 
   public async findByDate(date: Date): Promise<Appointment | undefined> {
-    console.log(date)
     const findAppointment = this.appointments.find(appointment =>
       isEqual(appointment.date, date),
     )

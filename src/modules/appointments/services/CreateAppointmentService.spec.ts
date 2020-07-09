@@ -8,10 +8,10 @@ import AppError from '@shared/errors/AppError'
 
 describe('CreateAppointment', () => {
   it('should be able to create a new appointment', async () => {
-    const FakeAppointments = new FakeAppointmentsRepository()
-    const CreateAppointment = new CreateAppointmentService(FakeAppointments)
+    const fakeAppointments = new FakeAppointmentsRepository()
+    const createAppointment = new CreateAppointmentService(fakeAppointments)
 
-    const appointment = await CreateAppointment.execute({
+    const appointment = await createAppointment.execute({
       date: new Date(),
       provider_id: '1',
     })
@@ -21,21 +21,21 @@ describe('CreateAppointment', () => {
   })
 
   it('should not be able to create two appointments on the same time', async () => {
-    const FakeAppointments = new FakeAppointmentsRepository()
-    const CreateAppointment = new CreateAppointmentService(FakeAppointments)
+    const fakeAppointments = new FakeAppointmentsRepository()
+    const createAppointment = new CreateAppointmentService(fakeAppointments)
 
     const appointmentDate = new Date()
 
-    await CreateAppointment.execute({
+    await createAppointment.execute({
       date: appointmentDate,
       provider_id: '1',
     })
 
-    const secondAppointmentDateEqual = CreateAppointment.execute({
+    const secondAppointmentDateEqual = createAppointment.execute({
       date: appointmentDate,
       provider_id: '1',
     })
 
-    return expect(secondAppointmentDateEqual).rejects.toBeInstanceOf(AppError)
+    expect(secondAppointmentDateEqual).rejects.toBeInstanceOf(AppError)
   })
 })
