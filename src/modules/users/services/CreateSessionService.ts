@@ -1,4 +1,3 @@
-import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import { injectable, inject } from 'tsyringe'
 
@@ -7,6 +6,9 @@ import User from '../infra/typeorm/entities/User'
 
 /* Interface repository */
 import IUsersRepository from '../repositories/InterfaceUsersRepository'
+
+/** Providers */
+import IHashProvider from '../providers/HashProvider/models/InterfaceHashProvider'
 
 /* Shared */
 import AppError from '@shared/errors/AppError'
@@ -29,6 +31,9 @@ class CreateSessionService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -47,7 +52,10 @@ class CreateSessionService {
     /**
      * Check password with password hash
      */
-    const checkPassword = await compare(password, user.password)
+    const checkPassword = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    )
 
     /**
      * Check if password is correct
