@@ -49,7 +49,7 @@ class UpdateUserAvatarService {
       await this.storageProvider.deleteFile(user.avatar)
     }
 
-    const filename = await this.storageProvider.saveFile(avatarName)
+    await this.storageProvider.saveFile(avatarName)
 
     /**
      * Change avatar
