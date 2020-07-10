@@ -7,7 +7,7 @@ import routes from './routes'
 
 import AppError from '@shared/errors/AppError'
 
-import { directory } from '@configs/upload'
+import uploadConfig from '@configs/upload'
 
 import '@shared/infra/typeorm'
 import '@shared/container'
@@ -16,7 +16,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use('/files', express.static(directory))
+app.use('/files', express.static(uploadConfig.tmpFolder))
 app.use(routes)
 
 /**
