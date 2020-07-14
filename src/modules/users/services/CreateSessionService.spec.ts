@@ -10,14 +10,22 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository'
 /** Shared */
 import AppError from '@shared/errors/AppError'
 
+let fakeUsers: FakeUsersRepository
+let fakeHash: FakeHashProvider
+
+let createUser: CreateUserService
+let createSession: CreateSessionService
+
 describe('CreateSessionService', () => {
+  beforeEach(() => {
+    fakeUsers = new FakeUsersRepository()
+    fakeHash = new FakeHashProvider()
+
+    createUser = new CreateUserService(fakeUsers, fakeHash)
+    createSession = new CreateSessionService(fakeUsers, fakeHash)
+  })
+
   it('should be able to authenticate', async () => {
-    const fakeUsers = new FakeUsersRepository()
-    const fakeHash = new FakeHashProvider()
-
-    const createUser = new CreateUserService(fakeUsers, fakeHash)
-    const createSession = new CreateSessionService(fakeUsers, fakeHash)
-
     const user = await createUser.execute({
       name: 'John doe',
       email: 'johndoe@example.com',
@@ -34,11 +42,6 @@ describe('CreateSessionService', () => {
   })
 
   it('should not be able to authenticate email that does not exists', async () => {
-    const fakeUsers = new FakeUsersRepository()
-    const fakeHash = new FakeHashProvider()
-
-    const createSession = new CreateSessionService(fakeUsers, fakeHash)
-
     const user = createSession.execute({
       email: 'johndoe@example.com',
       password: '123456',
@@ -48,12 +51,6 @@ describe('CreateSessionService', () => {
   })
 
   it('it should not be able to authenticate user with wrong password', async () => {
-    const fakeUsers = new FakeUsersRepository()
-    const fakeHash = new FakeHashProvider()
-
-    const createUser = new CreateUserService(fakeUsers, fakeHash)
-    const createSession = new CreateSessionService(fakeUsers, fakeHash)
-
     await createUser.execute({
       name: 'John doe',
       email: 'johndoe@example.com',
