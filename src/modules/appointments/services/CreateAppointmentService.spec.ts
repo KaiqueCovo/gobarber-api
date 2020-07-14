@@ -36,6 +36,6 @@ describe('CreateAppointment', () => {
       provider_id: '1',
     })
 
-    expect(secondAppointmentDateEqual).rejects.toBeInstanceOf(AppError)
+    await expect(secondAppointmentDateEqual).rejects.toBeInstanceOf(AppError)
   })
 })

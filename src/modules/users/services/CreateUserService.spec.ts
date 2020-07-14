@@ -41,6 +41,6 @@ describe('CreateUserService', () => {
       password: '123456',
     })
 
-    expect(secondUser).rejects.toBeInstanceOf(AppError)
+    await expect(secondUser).rejects.toBeInstanceOf(AppError)
   })
 })

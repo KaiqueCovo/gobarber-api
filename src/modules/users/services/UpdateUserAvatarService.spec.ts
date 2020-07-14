@@ -47,7 +47,7 @@ describe('CreateSessionService', () => {
       avatarName: 'avatar.png',
     })
 
-    expect(update).rejects.toBeInstanceOf(AppError)
+    await expect(update).rejects.toBeInstanceOf(AppError)
   })
 
   it('should be able delete old avatar when updating new one', async () => {
