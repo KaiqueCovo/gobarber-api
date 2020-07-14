@@ -1,5 +1,3 @@
-import { resolve } from 'path'
-import fs from 'fs'
 import { injectable, inject } from 'tsyringe'
 
 /* Entities */
@@ -13,9 +11,6 @@ import IStorageProvider from '@shared/container/providers/StorageProvider/models
 
 /* Shared */
 import AppError from '@shared/errors/AppError'
-
-/* Configs */
-import uploadConfig from '@configs/upload'
 
 interface IRequest {
   user_id: string
