@@ -7,17 +7,17 @@ import {
   Generated,
 } from 'typeorm'
 
-@Entity('users')
+@Entity('user_tokens')
 class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column('varchar')
-  @Generated('uuid')
-  token: string
+  user_id: string
 
   @Column('varchar')
-  user_id: string
+  @Generated('uuid')
+  token: string
 
   @CreateDateColumn()
   created_at: Date

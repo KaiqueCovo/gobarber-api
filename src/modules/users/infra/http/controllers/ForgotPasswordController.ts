@@ -14,7 +14,7 @@ class ForgotPasswordController {
 
     await sendForgotPasswordEmail.execute({ email })
 
-    return res.status(204)
+    return res.status(204).json()
   }
 }
 
