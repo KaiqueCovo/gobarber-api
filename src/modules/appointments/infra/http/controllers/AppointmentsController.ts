@@ -24,6 +24,7 @@ class AppointmentsController {
      */
     const appointment = await createAppointment.execute({
       provider_id,
+      user_id: req.user.id,
       date: parsedDate,
     })
 
