@@ -1,4 +1,4 @@
-import { startOfHour } from 'date-fns'
+import { startOfHour, isBefore, getHours } from 'date-fns'
 import { injectable, inject } from 'tsyringe'
 
 /* Entities */
@@ -32,6 +32,26 @@ class CreateAppointmentService {
      * Get first hour from date
      */
     const appointmentDate = startOfHour(date)
+
+    /**
+     * Verify date is before
+     */
+    if (isBefore(appointmentDate, Date.now())) {
+      throw new AppError("Your can't create an appointment on a past date")
+    }
+
+    /**
+     * Verify provider is same user
+     */
+    if (user_id === provider_id) {
+      throw new AppError("You can't create an appointment with yourself")
+    }
+
+    if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
+      throw new AppError(
+        "You can't only create appointments between 8am and 5pm",
+      )
+    }
 
     /**
      * Execute method findByDate for check if
