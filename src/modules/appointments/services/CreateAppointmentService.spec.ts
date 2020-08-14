@@ -2,16 +2,22 @@ import CreateAppointmentService from './CreateAppointmentService'
 
 /** Fake Repository */
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository'
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository'
 
 /** Shared */
 import AppError from '@shared/errors/AppError'
 
 let fakeAppointments: FakeAppointmentsRepository
+let fakeNotifications: FakeNotificationsRepository
 let createAppointment: CreateAppointmentService
 describe('CreateAppointment', () => {
   beforeEach(() => {
     fakeAppointments = new FakeAppointmentsRepository()
-    createAppointment = new CreateAppointmentService(fakeAppointments)
+    fakeNotifications = new FakeNotificationsRepository()
+    createAppointment = new CreateAppointmentService(
+      fakeAppointments,
+      fakeNotifications,
+    )
   })
   it('should be able to create a new appointment', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
