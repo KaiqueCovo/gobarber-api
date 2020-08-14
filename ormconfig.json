@@ -1,13 +1,25 @@
-{
-  "type": "mysql",
-  "host": "127.0.0.1",
-  "port": "33080",
-  "username": "root",
-  "password": "root",
-  "database": "go-barber",
-  "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
-  "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
-  "cli": {
-    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": "33080",
+    "username": "root",
+    "password": "root",
+    "database": "go-barber",
+    "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
+    "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+    "cli": {
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    }
+  },
+  {
+    "name": "mongo",
+    "type": "mongodb",
+    "host": "localhost",
+    "port": "27017",
+    "database": "gobarber",
+    "useUnifiedTopology": "true",
+    "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]
   }
-}
+]
