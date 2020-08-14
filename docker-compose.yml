@@ -16,8 +16,5 @@ services:
     container_name: gostack-mongodb
     volumes:
         - "./volumes/data/.mongo:/data/db"
-    environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: root
     ports:
         - "27017:27017"
