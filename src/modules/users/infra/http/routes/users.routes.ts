@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import multer from 'multer'
+import { celebrate, Segments, Joi } from 'celebrate'
 
 /* Middlewares */
 import AuthMiddleware from '../middlewares/AuthMiddleware'
@@ -17,7 +18,17 @@ const upload = multer(uploadConfig)
 const usersController = new UsersController()
 const userAvatarController = new UserAvatarController()
 
-usersRouter.post('/', usersController.create)
+usersRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    },
+  }),
+  usersController.create,
+)
 
 usersRouter.post(
   '/avatar',
