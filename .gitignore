@@ -13,3 +13,9 @@ coverage
 
 #debugger
 .vscode
+
+#enviroments
+.env
+
+#orm config
+ormconfig.json
