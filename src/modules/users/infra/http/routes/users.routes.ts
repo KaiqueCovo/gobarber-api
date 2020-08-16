@@ -30,7 +30,7 @@ usersRouter.post(
   usersController.create,
 )
 
-usersRouter.post(
+usersRouter.patch(
   '/avatar',
   AuthMiddleware,
   upload.single('avatar'),
