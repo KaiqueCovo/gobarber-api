@@ -10,11 +10,6 @@ class AppointmentsController {
     const { provider_id, date } = req.body
 
     /**
-     * Convert date string in Date()
-     */
-    const parsedDate = parseISO(date)
-
-    /**
      * Service instance
      */
     const createAppointment = container.resolve(CreateAppointmentService)
@@ -25,7 +20,7 @@ class AppointmentsController {
     const appointment = await createAppointment.execute({
       provider_id,
       user_id: req.user.id,
-      date: parsedDate,
+      date,
     })
 
     return res.json(appointment)
