@@ -8,6 +8,7 @@ import IUsersRepository from '../repositories/InterfaceUsersRepository'
 
 /** Providers */
 import IHashProvider from '../providers/HashProvider/models/InterfaceHashProvider'
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/InterfaceCacheProvider'
 
 /* Shared */
 import AppError from '@shared/errors/AppError'
@@ -26,6 +27,9 @@ class CreateUserService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
@@ -54,6 +58,8 @@ class CreateUserService {
       email,
       password: passwordHashed,
     })
+
+    await this.cacheProvider.invalidate('providers-list')
 
     return user
   }
