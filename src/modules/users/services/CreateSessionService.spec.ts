@@ -1,5 +1,4 @@
 import CreateSessionService from './CreateSessionService'
-import CreateUserService from './CreateUserService'
 
 /** Fake provider */
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider'
@@ -13,7 +12,6 @@ import AppError from '@shared/errors/AppError'
 let fakeUsers: FakeUsersRepository
 let fakeHash: FakeHashProvider
 
-let createUser: CreateUserService
 let createSession: CreateSessionService
 
 describe('CreateSessionService', () => {
@@ -21,12 +19,11 @@ describe('CreateSessionService', () => {
     fakeUsers = new FakeUsersRepository()
     fakeHash = new FakeHashProvider()
 
-    createUser = new CreateUserService(fakeUsers, fakeHash)
     createSession = new CreateSessionService(fakeUsers, fakeHash)
   })
 
   it('should be able to authenticate', async () => {
-    const user = await createUser.execute({
+    const user = await fakeUsers.create({
       name: 'John doe',
       email: 'johndoe@example.com',
       password: '123456',
@@ -51,7 +48,7 @@ describe('CreateSessionService', () => {
   })
 
   it('it should not be able to authenticate user with wrong password', async () => {
-    await createUser.execute({
+    await fakeUsers.create({
       name: 'John doe',
       email: 'johndoe@example.com',
       password: '123456',
